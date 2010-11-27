@@ -38,8 +38,6 @@ if ($mimeType != "")
 	// The web service returns XML. Set the Content-Type appropriately
 	header("Content-Type: ".$mimeType);
 }
-echo $query_string;
-echo '\n\n';
 echo $response;
 curl_close($session);
 ?>
