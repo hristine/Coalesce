@@ -1,0 +1,13 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	background-color: black;
+	color: #eee;
+}
+
+h1.tk-olidia {
+	font-weight: normal;
+	font-size: 90px;
+	padding: 100px;
+	z-index: 1000;	
+}
