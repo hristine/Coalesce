@@ -1,0 +1,2 @@
+create table state (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, named VARCHAR(100), colour VARCHAR(7), leftId INT, rightId INT);
+create table messages(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, userId INT, message VARCHAR(100), sent BOOLEAN);

@@ -1,6 +1,8 @@
 // Harmless defaults.
 var gridheight = 5;
 var gridwidth = 8;
+var colour = '#482948';
+var yourId = null;
 
 function requestImagery(colour, count, callback, params) {
 	var postdata = {
@@ -43,17 +45,10 @@ function transition(from, to, cola, colb) {
 	to = jQuery.Color(to).toHSV();
 
 	var step = ((to.hue() - from.hue()) / (colb - cola));
-	console.log(colb - cola);
-	console.log('fhue ' + from.hue());
-	console.log('thue ' + to.hue());
-	console.log('step ' + step);
 
 	for (var i = 0; i < colb - cola; i++) {
-		console.log('and ' + (from.hue() + (step * i)));
-		
 		var hue = from.hue() + (step * i);
-		if (hue > 1) hue -= 1;
-		
+		if (hue > 1) hue -= 1;		
 		columnImagery( jQuery.Color([ hue, 0.8, 0.8], 'HSV').toHEX(), cola + i);
 	}
 }
@@ -93,14 +88,23 @@ function renderSpectra() {
 
 // Event handler for changing the current colour.
 function changeColour() {
-	gridImagery( jQuery.Color(jQuery(this).css('background-color')).toHEX());
+	colour = jQuery.Color(jQuery(this).css('background-color')).toHEX()
+	gridImagery( colour );
+	sendUpdate();
+}
+
+function changeName() {
+	sendUpdate();
 }
 
 // Populate with images with the colour I chose at randomish.
 jQuery(document).ready(function() {
 	sizeInterface();
 	renderSpectra();
-	gridImagery('#482948');
+	gridImagery(colour);
 	
 	jQuery('#spectra').delegate('div', 'click', changeColour);
+	jQuery('#name').change(changeName);
+	
+	setInterval(poll, '1000');
 });
