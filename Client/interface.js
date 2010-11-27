@@ -2,6 +2,9 @@
 var gridheight = 5;
 var gridwidth = 8;
 var colour = '#482948';
+var colour_left = null;
+var colour_right = null;
+
 var yourId = null;
 
 function requestImagery(colour, count, callback, params) {
@@ -87,10 +90,22 @@ function renderSpectra() {
 }
 
 // Event handler for changing the current colour.
-function changeColour() {
+function selectColour() {
 	colour = jQuery.Color(jQuery(this).css('background-color')).toHEX()
-	gridImagery( colour );
 	sendUpdate();
+	changeColour();
+}
+
+function changeColour() {
+	if (colour_left == null && colour_right == null) {
+		gridImagery(colour);
+	} else if (colour_left == null) {
+		transitionAll(colour, colour_right);
+	} else if (colour_right == null) {
+		transitionAll(colour_left, colour);
+	} else {
+		transitionTriad(colour_left, colour, colour_right);
+	}
 }
 
 function changeName() {
@@ -103,8 +118,8 @@ jQuery(document).ready(function() {
 	renderSpectra();
 	gridImagery(colour);
 	
-	jQuery('#spectra').delegate('div', 'click', changeColour);
+	jQuery('#spectra').delegate('div', 'click', selectColour);
 	jQuery('#name').change(changeName);
 	
-	setInterval(poll, '1000');
+	setInterval(poll, '10000');
 });

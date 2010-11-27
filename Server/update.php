@@ -21,6 +21,9 @@ if ($named != $row['named']) {
 
 if ($colour != $row['colour']) {
 	hey_everyone($named . ' is now ' . $colour);
+
+	hey_you('sys_shift_left_' . $colour . '_' . $row['colour'], $row['leftId']);
+	hey_you('sys_shift_right_' . $colour . '_' . $row['colour'], $row['rightId']);
 }
 
 $query = sprintf("update coalesce.state set named='%s', colour='%s' where id='%s')",
@@ -34,6 +37,12 @@ $query = sprintf("insert into coalesce.state (named, colour) values ('%s', '%s')
 	$result = mysql_query($query, $link);
 	$id = mysql_insert_id($link);
 	hey_everyone($named . ' is here!');
+}
+
+function hey_you($message, $id) {
+	$inner = sprintf("insert into coalesce.messages (userId, message, sent) values(" . $id . ", '%s', false)",
+		mysql_real_escape_string($message));
+	$inner_result = mysql_query($inner);
 }
 
 function hey_everyone($message) {
