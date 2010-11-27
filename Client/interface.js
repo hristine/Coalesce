@@ -51,8 +51,24 @@ function sizeInterface() {
 	}
 }
 
+function renderSpectra() {
+	jQuery('#spectra').empty();
+	
+	for (var i = 0; i < 360; i += 5) {
+		jQuery('#spectra').append('<div style="background-color:' + jQuery.Color([i/360, 0.8, 0.8], 'HSV').toCSS() + '">&nbsp;</div>');
+	}
+}
+
+// Event handler for changing the current colour.
+function changeColour() {
+	gridImagery( jQuery.Color(jQuery(this).css('background-color')).toHEX());
+}
+
 // Populate with images with the colour I chose at randomish.
 jQuery(document).ready(function() {
 	sizeInterface();
+	renderSpectra();
 	gridImagery('#482948');
+	
+	jQuery('#spectra').delegate('div', 'click', changeColour);
 });
