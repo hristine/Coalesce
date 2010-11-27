@@ -2,7 +2,6 @@
 var gridheight = 5;
 var gridwidth = 8;
 
-
 function requestImagery(colour, count, callback, params) {
 	var postdata = {
 		'method': 'color_search',
@@ -32,12 +31,44 @@ function gridImagery(colour) {
 function columnImageryCallback(data, params) {
 	for (var i = 0; i < data.result.length; i++) {
 		jQuery('#ref_' + params.column + '_' +  i).css('background-image', 'url(http://piximilar-flickr.hackmtl.tineye.com/collection/?filepath=' + data.result[i].filepath + ')');
-		console.log('#ref_' + params.column + '_' +  i);
 	}
 }
 
 function columnImagery(colour, columnIndex) {
 	requestImagery(colour, gridheight, columnImageryCallback, {column: columnIndex});
+}
+
+function transition(from, to, cola, colb) {
+	from = jQuery.Color(from).toHSV();
+	to = jQuery.Color(to).toHSV();
+
+	var step = ((to.hue() - from.hue()) / (colb - cola));
+	console.log(colb - cola);
+	console.log('fhue ' + from.hue());
+	console.log('thue ' + to.hue());
+	console.log('step ' + step);
+
+	for (var i = 0; i < colb - cola; i++) {
+		console.log('and ' + (from.hue() + (step * i)));
+		
+		var hue = from.hue() + (step * i);
+		if (hue > 1) hue -= 1;
+		
+		columnImagery( jQuery.Color([ hue, 0.8, 0.8], 'HSV').toHEX(), cola + i);
+	}
+}
+
+// Colour gradient across the grid
+function transitionAll(from, to) {
+	transition(from, to, 0, gridwidth);
+}
+
+// Transition via a midpoint.
+function transitionTriad(from, mid, to) {
+	var midcol = Math.floor(gridwidth / 2);
+	
+	transition(from, mid, 0, midcol);
+	transition(mid, to, midcol, gridwidth);
 }
 
 // Layout the grid
@@ -51,6 +82,7 @@ function sizeInterface() {
 	}
 }
 
+// Render the selectable colours.
 function renderSpectra() {
 	jQuery('#spectra').empty();
 	
