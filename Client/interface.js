@@ -5,6 +5,9 @@ var colour = '#482948';
 var colour_left = null;
 var colour_right = null;
 
+var leftId = null;
+var rightId = null;
+
 var yourId = null;
 
 function requestImagery(colour, count, callback, params) {

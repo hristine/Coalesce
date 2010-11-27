@@ -39,6 +39,9 @@ $query = sprintf("insert into coalesce.state (named, colour) values ('%s', '%s')
 	hey_everyone($named . ' is here!');
 }
 
+hey_everyone("sys_neighbour_left_" . $id. "_$named");
+hey_everyone("sys_neighbour_right_" . $id. "_$named");
+
 function hey_you($message, $id) {
 	$inner = sprintf("insert into coalesce.messages (userId, message, sent) values(" . $id . ", '%s', false)",
 		mysql_real_escape_string($message));
@@ -57,6 +60,7 @@ function hey_everyone($message) {
 		$inner_result = mysql_query($inner);
 	}
 }
+
 echo $id;
 mysql_close($link);
 ?>
