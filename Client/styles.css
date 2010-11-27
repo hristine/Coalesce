@@ -8,6 +8,25 @@ body {
 h1.tk-olidia {
 	font-weight: normal;
 	font-size: 90px;
-	padding: 100px;
 	z-index: 1000;	
+
+	position: fixed;
+	top: 30px;
+	left: 150px;
+}
+
+#rainbox {
+	width: 100%;
+	height: 375px;
+	
+	margin: 100px auto;
+	background-color: white;
+	overflow: hidden;
+	position: relative;
+}
+
+div.cell {
+	width: 75px;
+	height: 75px;
+	position: absolute;
 }
